@@ -70,7 +70,7 @@ class SalesNavigator(object):
         self,
         person_link,
         company=None,
-        start_with=0,
+        start_from=0,
         count=25
     ):
         # build target URN
@@ -82,14 +82,14 @@ class SalesNavigator(object):
         if company:
             company_string = f"companyV2:(scope:CURRENT,includedValues:List((text:{company}))),"
 
-        url = f"{self.client.LINKEDIN_BASE_URL}/sales-api/salesApiPeopleSearch?q=peopleSearchQuery&start={start_with}&count={count}&query=({company_string}doFetchHeroCard:false,spellCorrectionEnabled:true,spotlightParam:(selectedType:ALL),doFetchFilters:true,doFetchHits:true,doFetchSpotlights:true,pivotParam:(com.linkedin.sales.search.AllConnectionsPivotRequest:(targetMember:{urn_string})))&decorationId=com.linkedin.sales.deco.desktop.search.DecoratedPeopleSearchHitResult-6"
+        url = f"{self.client.LINKEDIN_BASE_URL}/sales-api/salesApiPeopleSearch?q=peopleSearchQuery&start={start_from}&count={count}&query=({company_string}doFetchHeroCard:false,spellCorrectionEnabled:true,spotlightParam:(selectedType:ALL),doFetchFilters:true,doFetchHits:true,doFetchSpotlights:true,pivotParam:(com.linkedin.sales.search.AllConnectionsPivotRequest:(targetMember:{urn_string})))&decorationId=com.linkedin.sales.deco.desktop.search.DecoratedPeopleSearchHitResult-6"
         res = self._fetch(url)
         return self._parse_search_results(res.json()["elements"])
 
     def get_results_from_search(
         self,
         url,
-        start = 0,
+        start_from = 0,
         count = 25
     ):
         parsed = urlparse(url)
@@ -164,7 +164,7 @@ class SalesNavigator(object):
 
         # stock parameters
         queries.append("spellCorrectionEnabled:true,spotlightParam:(selectedType:ALL),doFetchFilters:true,doFetchHits:true,doFetchSpotlights:true")
-        sales_nav_api_url = f"https://www.linkedin.com/sales-api/salesApiPeopleSearch?q=peopleSearchQuery&start={start}&count={count}&query=({','.join(queries)})&decorationId=com.linkedin.sales.deco.desktop.search.DecoratedPeopleSearchHitResult-6"
+        sales_nav_api_url = f"https://www.linkedin.com/sales-api/salesApiPeopleSearch?q=peopleSearchQuery&start={start_from}&count={count}&query=({','.join(queries)})&decorationId=com.linkedin.sales.deco.desktop.search.DecoratedPeopleSearchHitResult-6"
         res = self._fetch(sales_nav_api_url)
         return self._parse_search_results(res.json()["elements"])
 
