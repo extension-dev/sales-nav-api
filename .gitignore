@@ -1,2 +1,4 @@
 sales_nav_api.egg-info
 sales_nav_api.egg-info/*
+*/__pycache__/*
+*/__pycache__/
