@@ -6,12 +6,6 @@ from pathlib import Path
 CURRENT_DIR = Path(__file__).parent
 
 
-def get_long_description() -> str:
-    readme_md = CURRENT_DIR / "README.md"
-    with open(readme_md, encoding="utf8") as ld_file:
-        return ld_file.read()
-
-
 def get_version() -> str:
     black_py = CURRENT_DIR / "sales_nav_api/__init__.py"
     _version_re = re.compile(r"__version__\s+=\s+(?P<version>.*)")
@@ -24,12 +18,12 @@ def get_version() -> str:
 setuptools.setup(
     name="sales_nav_api",
     version=get_version(),
-    author="Tom Quirk",
-    author_email="tomquirkacc@gmail.com",
-    description="Python wrapper for the Linkedin API",
-    long_description=get_long_description(),
+    author="include.ai boys",
+    author_email="founders@include.ai",
+    description="Python wrapper for the Linkedin Sales Navigator API",
+    long_description="Python wrapper for the Linkedin Sales Navigator API",
     long_description_content_type="text/markdown",
-    url="https://github.com/tomquirk/linkedin-api",
+    url="https://github.com/includeai/sales-nav-api/tree/master/sales_nav_api",
     license="MIT",
     packages=setuptools.find_packages(),
     install_requires=["requests", "beautifulsoup4", "lxml"],
