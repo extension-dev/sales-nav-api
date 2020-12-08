@@ -49,17 +49,23 @@ class SalesNavigator(object):
 
     def _parse_search_results(self, data):
         people = []
-        for connection in data:
+        for idx, connection in enumerate(data):
             entity_urn = connection['entityUrn']
             sales_nav_id = entity_urn[entity_urn.find("(") + 1 : entity_urn.find(")")]
-            people.append({
+            data_point = {
                 "fullName": connection['fullName'],
                 "location": connection['geoRegion'],
                 "degree": connection['degree'],
-                "company_name": connection['currentPositions'][0]['companyName'],
-                "current_title": connection['currentPositions'][0]['title'],
                 "sales_nav_url": f"https://www.linkedin.com/sales/people/{sales_nav_id}"
-            })
+            }
+
+            if len(connection['currentPositions']):
+                data_point.update({  
+                    "company_name": connection['currentPositions'][0]['companyName'],
+                    "current_title": connection['currentPositions'][0]['title'],
+                })
+            people.append(data_point)
+
         return people
 
 

@@ -8,6 +8,6 @@ li_at = "AQEFALsBAAAAAARgz-8AAAF2H9bf0gAAAXZD-o1ETQAAXnVybjpsaTplbnRlcnByaXNlUHJ
 
 sales_nav = SalesNavigator(li_at, li_a)
 
-url = 'https://www.linkedin.com/sales/people/ACwAAAg4EjABNsrhaNchZRcxHoIJLKVdZzUR7fY,NAME_SEARCH,-0jl?_ntb=BWqJov50RnW69NIm29cHKw%3D%3D'
-data = sales_nav.convert_to_public_url(url)
+url = 'https://www.linkedin.com/sales/search/people?companyExcluded=Workato%3A3675685&companyTimeScope=CURRENT&doFetchHeroCard=false&keywords=Workato%20AND%20Python&logHistory=true&page=1&rsLogId=709962092&searchSessionId=JdxjIvR7Ta2usLYs68XiqQ%3D%3D&titleExcluded=Partner%3A18%2CConsultant%3A3&titleTimeScope=CURRENT'
+data = sales_nav.get_results_from_search(url, start_from=0, count=100)
 print(data)
