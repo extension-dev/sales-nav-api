@@ -168,6 +168,12 @@ class SalesNavigator(object):
             param = f"titleV2:(scope:{time_scope},includedValues:List({','.join(title_quries)}))"
             queries.append(param)
 
+        if 'schoolIncluded' in query_params.keys():
+            schools = query_params['schoolIncluded'][0].split(',')
+            school_queries = [f'(id:{s})' for s in schools]
+            param = f"schoolV2:(includedValues:List({','.join(school_queries)}))"
+            queries.append(param)
+
         # stock parameters
         queries.append("spellCorrectionEnabled:true,spotlightParam:(selectedType:ALL),doFetchFilters:true,doFetchHits:true,doFetchSpotlights:true")
         sales_nav_api_url = f"https://www.linkedin.com/sales-api/salesApiPeopleSearch?q=peopleSearchQuery&start={start_from}&count={count}&query=({','.join(queries)})&decorationId=com.linkedin.sales.deco.desktop.search.DecoratedPeopleSearchHitResult-6"
