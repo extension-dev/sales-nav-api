@@ -8,9 +8,8 @@ from operator import itemgetter
 from time import sleep, time
 from urllib.parse import urlencode, quote, unquote, urlparse, parse_qs
 
-
 from sales_nav_api.client import Client
-from sales_nav_api.utils.helpers import get_id_from_urn
+from sales_nav_api.utils.helpers import get_id_from_urn, safe_get
 
 import requests
 
@@ -64,6 +63,14 @@ class SalesNavigator(object):
                     "company_name": connection['currentPositions'][0]['companyName'],
                     "current_title": connection['currentPositions'][0]['title'],
                 })
+
+                if 'companyUrn' in connection['currentPositions'][0].keys():
+                    company_urn = connection['currentPositions'][0]['companyUrn']
+                    company_uid = company_urn.split(':')[-1]
+                    data_point.update({  
+                        "company_sales_url": f"https://www.linkedin.com/sales/company/{company_uid}"
+                    })
+
             people.append(data_point)
 
         return people
@@ -191,3 +198,23 @@ class SalesNavigator(object):
         )
         public_url = json.loads(resp.json()['body'])['publicUrl']
         return public_url
+
+    def get_company_info(self, company_url):
+        company_id = company_url.split("/")[5]
+        build_query = f"(entityUrn,name,description,industry,employeeCount,employeeDisplayCount,employeeCountRange,location,headquarters,website,revenue,formattedRevenue,flagshipCompanyUrl)"
+        # build_query = f"(entityUrn,name,account(saved,noteCount,listCount,crmStatus),pictureInfo,companyPictureDisplayImage,description,industry,employeeCount,employeeDisplayCount,employeeCountRange,location,headquarters,website,revenue,formattedRevenue,employeesSearchPageUrl,flagshipCompanyUrl,employees*~fs_salesProfile(entityUrn,firstName,lastName,fullName,pictureInfo,profilePictureDisplayImage))"
+
+        build_query = quote(build_query)
+        query_url = f"https://www.linkedin.com/sales-api/salesApiCompanies/{company_id}?decoration=" + build_query
+
+        res = self._fetch(query_url)
+        data = res.json()
+
+        return {
+            'name': safe_get(data, 'name'),
+            'description': safe_get(data, 'description'),
+            'website': safe_get(data, 'website'),
+            'industry': safe_get(data, 'industry'),
+            'employeeCount': safe_get(data, 'employeeCount'),
+            'location': safe_get(data, 'location'),
+        }
