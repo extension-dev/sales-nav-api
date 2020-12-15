@@ -46,13 +46,15 @@ class Client(object):
             name='li_at',
             value=li_at
         )
-        li_a_cookie = requests.cookies.create_cookie(
-            domain='.wwww.linkedin.com',
-            name='li_a',
-            value=li_a
-        )
         self.session.cookies.set_cookie(li_at_cookie)
-        self.session.cookies.set_cookie(li_a_cookie)
+        
+        if li_a is not None:
+            li_a_cookie = requests.cookies.create_cookie(
+                domain='.wwww.linkedin.com',
+                name='li_a',
+                value=li_a
+            )
+            self.session.cookies.set_cookie(li_a_cookie)
 
     def _request_session_cookies(self):
         """
@@ -114,9 +116,9 @@ class Client(object):
         return requests.get(url, headers=Client.REQUEST_HEADERS)
 
 
-    def post(self, url):
+    def post(self, url, json):
         cookieString = ";".join([f"{c.name}={c.value}" for c in self.session.cookies])
         Client.REQUEST_HEADERS.update({
             "Cookie": cookieString,
         })
-        return requests.post(url, headers=Client.REQUEST_HEADERS)
+        return requests.post(url, json=json, headers=Client.REQUEST_HEADERS)

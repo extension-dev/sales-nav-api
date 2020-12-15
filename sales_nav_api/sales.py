@@ -21,30 +21,31 @@ def default_evade():
     sleep(random.randint(2, 5))  # sleep a random duration to try and evade suspention
 
 
-class SalesNavigator(object):
+class LinkedIn(object):
     def __init__(
         self,
         li_at,
-        li_a
     ):
         """Constructor method"""
         self.client = Client(
             li_at = li_at,
-            li_a  = li_a,
+            li_a  = None,
         )
         self.client.initiate()
 
-    def _fetch(self, url, evade=default_evade):
+    def _fetch(self, url, evade=None):
         """GET request to Linkedin API"""
-        # evade()
+        if evade is not None:
+            evade()
+
         return self.client.fetch(url)
 
-    def _post(self, uri, evade=default_evade):
+    def _post(self, url, args, evade=None):
         """POST request to Linkedin API"""
-        evade()
+        if evade is not None:
+            evade()
 
-        url = f"{self.client.LINKEDIN_BASE_URL}{uri}"
-        return self.client.session.post(url, **kwargs)
+        return self.client.post(url, **args)
 
     def _parse_search_results(self, data):
         people = []
@@ -76,9 +77,9 @@ class SalesNavigator(object):
         return people
 
 
-    ##################
-    # below are APIs #
-    ##################
+    ############
+    # GET APIs #
+    ############
     def get_connections_to_person(
         self,
         person_link,
@@ -209,6 +210,7 @@ class SalesNavigator(object):
 
         res = self._fetch(query_url)
         data = res.json()
+        print(data)
 
         return {
             'name': safe_get(data, 'name'),
@@ -218,3 +220,9 @@ class SalesNavigator(object):
             'employeeCount': safe_get(data, 'employeeCount'),
             'location': safe_get(data, 'location'),
         }
+
+
+    #############
+    # POST APIs #
+    #############
+    

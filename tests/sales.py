@@ -14,7 +14,10 @@ def test_1():
 	print(len(data))
 
 def test_2():
-	company = "https://www.linkedin.com/sales/company/2738049/people"
+	# company = "https://www.linkedin.com/sales/company/2738049/people"
+	# company = "https://www.linkedin.com/sales/company/1534"
+	# company = "https://www.linkedin.com/sales/company/2382910/people"
+	company = "https://www.linkedin.com/sales/company/1028"
 	company_data = sales_nav.get_company_info(company)
 	print(json.dumps(company_data))
 
