@@ -78,8 +78,6 @@ class LinkedIn(object):
 
     def _get_uid_from_url(self, url):
         resp = self.client.fetch(url)
-        with open("temp.txt", "w") as exec_file:
-            print(resp.text, file=exec_file)
         pattern = r'&quot;urn:li:fs_profileNetworkInfo:([A-Za-z0-9_-]+)&quot'
         result = re.search(pattern, resp.text)
         uid = result.group(1)
@@ -93,7 +91,6 @@ class LinkedIn(object):
         query_url = f"https://www.linkedin.com/voyager/api/identity/profiles/{uid}"
 
         resp = self.client.fetch(query_url)
-        print(resp.status_code)
         result = resp.json()
         profile_result = {
             "url": url,
