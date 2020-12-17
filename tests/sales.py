@@ -9,9 +9,11 @@ li_at = "AQEFALsBAAAAAARgz-8AAAF2H9bf0gAAAXZD-o1ETQAAXnVybjpsaTplbnRlcnByaXNlUHJ
 sales_nav = SalesNavigator(li_at, li_a)
 
 def test_1():	
-	url = 'https://www.linkedin.com/sales/search/people?doFetchHeroCard=false&logHistory=true&page=1&rsLogId=715796908&schoolIncluded=150005&searchSessionId=S%2BLrlI%2BjT6CvZ35gnUoEWA%3D%3D&titleIncluded=sales%2520AND%2520Ops%2Csales%2520AND%2520Operations&titleTimeScope=CURRENT'
+	url = "https://www.linkedin.com/sales/search/people?doFetchHeroCard=false&geoIncluded=103644278&keywords=%22Python%22%20AND%20%22internal%22%20AND%20(%22API%22%20OR%20%22APIs%22)&logHistory=true&page=1&rsLogId=596836466&searchSessionId=p09MZH2LQnmpJVE39Fvs7Q%3D%3D&titleIncluded=%2522Operations%2520Engineer%2522%2C%2522Business%2520Applications%2522%2C%2522Business%2520Apps%2522%2C%2522Business%2520Application%2522%2C%2522Operations%2520Engineering%2522&titleTimeScope=CURRENT"
+	# url = "https://www.linkedin.com/sales/search/people?doFetchHeroCard=true&geoIncluded=103644278&logHistory=true&page=1&rsLogId=721659788&searchSessionId=p09MZH2LQnmpJVE39Fvs7Q%3D%3D&titleIncluded=%2522Operations%2520Engineer%2522%2C%2522Business%2520Applications%2522%2C%2522Business%2520Apps%2522%2C%2522Business%2520Application%2522%2C%2522Operations%2520Engineering%2522&titleTimeScope=CURRENT"
 	data = sales_nav.get_results_from_search(url, start_from=0, count=100)
 	print(len(data))
+	print(data[0])
 
 def test_2():
 	# company = "https://www.linkedin.com/sales/company/2738049/people"
@@ -21,6 +23,15 @@ def test_2():
 	company_data = sales_nav.get_company_info(company)
 	print(json.dumps(company_data))
 
+def test_3():
+	li_a = "AQJ2PTEmc2FsZXNfY2lkPTkwNzE4NTIxJTNBJTNBOTA2ODQ2NDElM0ElM0F0aWVyMSUzQSUzQTgxMzAzNzg1_8whE4VYZvg7ggBBme9PqWZPXJc"
+	li_at = "AQEFALsBAAAAAAQtsO4AAAF1euA-3wAAAXaH57h_TQAAXnVybjpsaTplbnRlcnByaXNlUHJvZmlsZToodXJuOmxpOmVudGVycHJpc2VBY2NvdW50OjgxMzAzNzg1LDEwOTUwODk3MyledXJuOmxpOm1lbWJlcjoxODUxMjY4MTGV8icO6lnw9p4N59Sgiix60_VUV_8qXL0CzANBpzMbEr_ZPJa8T_Se1XqUVkmQhLpSRHHhtUOiNLmzBYhoCceVvy_0uJ7xx2EsYq_fiSF3ErOYVZACHXswu65vE4qXjMPLYovJLvv01RxAnb-tTCY8uijnAyHiyYXfasqJNC7gy0XcSY_RGFJlEHNcY7xeNlJuBKse"
 
-# test_1()
-test_2()
+	sales_nav = SalesNavigator(li_at, li_a)
+	connection_url = "https://www.linkedin.com/sales/people/ACwAAAJSSUkBtgOlx53grhX6606ILuOMuEEULZ0,NAME_SEARCH,049O"
+	company = "Zava"
+	people = sales_nav.get_connections_to_person(connection_url, company, 0, 25)
+
+test_1()
+# test_2()
+# test_3()

@@ -21,15 +21,16 @@ def default_evade():
     sleep(random.randint(2, 5))  # sleep a random duration to try and evade suspention
 
 
-class LinkedIn(object):
+class SalesNavigator(object):
     def __init__(
         self,
         li_at,
+        li_a
     ):
         """Constructor method"""
         self.client = Client(
             li_at = li_at,
-            li_a  = None,
+            li_a  = li_a,
         )
         self.client.initiate()
 
@@ -111,7 +112,7 @@ class LinkedIn(object):
 
         queries = ['doFetchHeroCard:false']
         if 'keywords' in query_params.keys():
-            param = f"keywords:{query_params['keywords'][0]}"
+            param = f"keywords:{quote(query_params['keywords'][0])}"
             queries.append(param)
 
         if 'geoIncluded' in query_params.keys():
@@ -210,7 +211,6 @@ class LinkedIn(object):
 
         res = self._fetch(query_url)
         data = res.json()
-        print(data)
 
         return {
             'name': safe_get(data, 'name'),
